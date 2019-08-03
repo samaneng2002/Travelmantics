@@ -6,6 +6,7 @@
     <string name="price_hint">Enter deal price</string>
     <string name="description_hint">Enter deal description</string>
     <string name="new_travel_deal_menu_item">New Travel Deal</string>
+    <string name="delete_deal_menu_item">Delete deal</string>
 
 
 </resources>

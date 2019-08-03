@@ -11,4 +11,9 @@
 
     </item>
 
+
+    <item android:id="@+id/delete_menu"
+        android:title="@string/delete_deal_menu_item"
+        app:showAsAction="never"/>
+
 </menu>
