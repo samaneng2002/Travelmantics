@@ -12,6 +12,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,12 +36,12 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-//        FirebaseUtil.openFbReference("traveldeals");
+
 ////        mFirebaseDatabase = FirebaseDatabase.getInstance();
 //        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
 ////        mDatabaseReference = mFirebaseDatabase.getReference().child("traveldeals");
 //        mDatabaseReference = FirebaseUtil.mDatabaseReference;
-//
+////
 //        mChildEventListener = new ChildEventListener() {
 //            @Override
 //            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -72,11 +76,7 @@ public class ListActivity extends AppCompatActivity {
 //        mDatabaseReference.addChildEventListener(mChildEventListener);
 
 
-        RecyclerView rvDeals = findViewById(R.id.rv_deals);
-        DealAdapter dealAdapter = new DealAdapter();
-        rvDeals.setAdapter(dealAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
-        rvDeals.setLayoutManager(linearLayoutManager);
+
 
     }
 
@@ -84,6 +84,22 @@ public class ListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_activity_menu, menu);
+//        MenuItem insertMenu = menu.findItem(R.id.insert_menu);
+//        if (FirebaseUtil.isAdmin){
+//            insertMenu.setVisible(true);
+//        }
+//        else {
+//            insertMenu.setVisible(false);
+//
+//        }
+
+        if (FirebaseUtil.isAdmin){
+            menu.findItem(R.id.insert_menu).setVisible(true);
+
+        }
+        else {
+            menu.findItem(R.id.insert_menu).setVisible(false);
+        }
         return true;
     }
 
@@ -95,7 +111,44 @@ public class ListActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, DealActivity.class);
                 startActivity(intent);
                 return true;
+
+            case R.id.logout_menu:
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                // ...
+                                FirebaseUtil.attachListener();
+                            }
+                        });
+                FirebaseUtil.detachListener();
+                return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FirebaseUtil.detachListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        FirebaseUtil.openFbReference("traveldeals", this);
+        FirebaseUtil.attachListener();
+        FirebaseUtil.checkAdmin(FirebaseAuth.getInstance().getUid());
+
+        RecyclerView rvDeals = findViewById(R.id.rv_deals);
+        DealAdapter dealAdapter = new DealAdapter();
+        rvDeals.setAdapter(dealAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
+        rvDeals.setLayoutManager(linearLayoutManager);
+    }
+
+    public void showMenu(){
+        invalidateOptionsMenu();
     }
 }

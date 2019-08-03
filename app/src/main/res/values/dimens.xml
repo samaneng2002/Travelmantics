@@ -3,5 +3,6 @@
     <dimen name="margin_standard">16dp</dimen>
     <dimen name="title_large">24sp</dimen>
     <dimen name="text_price">18sp</dimen>
+    <dimen name="et_font_size">16sp</dimen>
 
 </resources>
