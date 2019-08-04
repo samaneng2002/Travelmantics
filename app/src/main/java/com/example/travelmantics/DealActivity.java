@@ -136,7 +136,8 @@ public class DealActivity extends AppCompatActivity {
 
         if (requestCode == PICTURE_RESULT && resultCode == RESULT_OK) {
             Uri imageUri = data.getData();
-            showImage(imageUri.toString());
+//            showImage(imageUri.toString());
+            findViewById(R.id.pb_uploading).setVisibility(View.VISIBLE);
 
             final StorageReference ref = FirebaseUtil.mStorageRef.child(imageUri.getLastPathSegment());
             UploadTask uploadTask = ref.putFile(imageUri);
@@ -159,7 +160,9 @@ public class DealActivity extends AppCompatActivity {
                         deal.setImageUrl(downloadUri.toString());
                         deal.setImageName(ref.getPath());
 //                        saveDeal();
-//                        showImage(downloadUri.toString());
+                        showImage(downloadUri.toString());
+                        findViewById(R.id.pb_uploading).setVisibility(View.GONE);
+
                         Log.d("ImageUrl", downloadUri.toString());
                         Log.d("ImageName", ref.getPath());
                     } else {

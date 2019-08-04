@@ -77,8 +77,6 @@ public class ListActivity extends AppCompatActivity {
 //        mDatabaseReference.addChildEventListener(mChildEventListener);
 
 
-
-
     }
 
     @Override
@@ -141,13 +139,13 @@ public class ListActivity extends AppCompatActivity {
         FirebaseUtil.openFbReference("traveldeals", this);
         FirebaseUtil.attachListener();
         FirebaseUtil.checkAdmin(FirebaseAuth.getInstance().getUid());
-        showMenu();
 
         RecyclerView rvDeals = findViewById(R.id.rv_deals);
         DealAdapter dealAdapter = new DealAdapter();
         rvDeals.setAdapter(dealAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         rvDeals.setLayoutManager(linearLayoutManager);
+        //show divider between items
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvDeals.getContext(),
                 linearLayoutManager.getOrientation());
         rvDeals.addItemDecoration(dividerItemDecoration);
