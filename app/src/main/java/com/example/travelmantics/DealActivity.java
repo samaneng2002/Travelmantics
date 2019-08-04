@@ -49,7 +49,7 @@ public class DealActivity extends AppCompatActivity {
 
 
 //        FirebaseUtil.openFbReference("traveldeals",this);
-//        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
 //        mDatabaseReference = mFirebaseDatabase.getReference().child("traveldeals");
         mDatabaseReference = FirebaseUtil.mDatabaseReference;

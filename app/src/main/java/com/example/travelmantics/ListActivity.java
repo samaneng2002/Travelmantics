@@ -138,7 +138,7 @@ public class ListActivity extends AppCompatActivity {
 
         FirebaseUtil.openFbReference("traveldeals", this);
         FirebaseUtil.attachListener();
-        FirebaseUtil.checkAdmin(FirebaseAuth.getInstance().getUid());
+//        FirebaseUtil.checkAdmin(FirebaseAuth.getInstance().getUid());
 
         RecyclerView rvDeals = findViewById(R.id.rv_deals);
         DealAdapter dealAdapter = new DealAdapter();
