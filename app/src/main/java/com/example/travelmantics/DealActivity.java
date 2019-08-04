@@ -95,12 +95,15 @@ public class DealActivity extends AppCompatActivity {
             menu.findItem(R.id.delete_menu).setVisible(true);
             menu.findItem(R.id.save).setVisible(true);
             enableEditText(true);
+            findViewById(R.id.bt_image).setEnabled(true);
+
 
         }
         else {
             menu.findItem(R.id.delete_menu).setVisible(false);
             menu.findItem(R.id.save).setVisible(false);
             enableEditText(false);
+            findViewById(R.id.bt_image).setEnabled(false);
         }
 
         return true;
@@ -133,6 +136,8 @@ public class DealActivity extends AppCompatActivity {
 
         if (requestCode == PICTURE_RESULT && resultCode == RESULT_OK) {
             Uri imageUri = data.getData();
+            showImage(imageUri.toString());
+
             final StorageReference ref = FirebaseUtil.mStorageRef.child(imageUri.getLastPathSegment());
             UploadTask uploadTask = ref.putFile(imageUri);
 
@@ -154,7 +159,7 @@ public class DealActivity extends AppCompatActivity {
                         deal.setImageUrl(downloadUri.toString());
                         deal.setImageName(ref.getPath());
 //                        saveDeal();
-                        showImage(downloadUri.toString());
+//                        showImage(downloadUri.toString());
                         Log.d("ImageUrl", downloadUri.toString());
                         Log.d("ImageName", ref.getPath());
                     } else {
